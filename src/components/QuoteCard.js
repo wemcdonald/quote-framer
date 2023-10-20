@@ -1,9 +1,10 @@
 import {Box, Stack} from "@mui/material";
 import {useFont} from "../FontProvider";
 
-export default function QuoteCard({row}) {
+export default function QuoteCard({row, index}) {
     return (
         <Box
+            id={`quote-card-${index}`}
             sx={{
                 width: '100%',
                 paddingTop: '62.5%', // 1280:800 Aspect Ratio

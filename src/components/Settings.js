@@ -4,11 +4,10 @@ import {FontSelectors} from "./FontSelector";
 
 export default function Settings({loadFiles, saveImages}) {
     return (
-        <Stack sx={{border: "2px solid black", borderRadius:1}} padding={2} alignItems={"center"}>
-            {/*<FilePicker type="file" onChange={loadFiles} accept=".tsv" />*/}
+        <Stack sx={{border: "2px solid black", borderRadius:4}} padding={2} alignItems={"center"} gap={2}>
             <FilesDragAndDrop handleChange={loadFiles} />
-            <Button onClick={saveImages}>Save Images</Button>
             <FontSelectors />
+            <Button onClick={saveImages}>Save Images</Button>
         </Stack>
     )
 }

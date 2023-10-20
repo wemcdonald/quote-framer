@@ -9,8 +9,9 @@ export const useFont = () => useContext(FontContext);
 
 export default function FontProvider({ children }) {
     const [fontFamilies, setFontFamilies] = useState(defaultFontFamilies);
-    const [quoteFont, setQuoteFont] = useState({fontFamily: fontFamilies[0], fontWeight: defaultFontWeights[0], fontSize: defaultFontSizes[0]});
-    const [attributionFont, setAttributionFont] = useState({fontFamily: fontFamilies[0], fontWeight: defaultFontWeights[0], fontSize: defaultFontSizes[0]});
+    const [quoteFont, setQuoteFont] = useState({fontFamily: fontFamilies[0], fontWeight: "600", fontSize: "52px"});
+    const [attributionFont, setAttributionFont] = useState({fontFamily: fontFamilies[0], fontWeight: "400", fontSize: "24px"});
+
     const handleFontFile = useCallback((file) => {
         if (file) {
             const fontFace = new FontFace('CustomFont', URL.createObjectURL(file));
