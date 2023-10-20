@@ -60,8 +60,8 @@ function App(callback, deps) {
 
     return (
         <FontProvider>
-            <Stack className="App" alignItems={"center"}>
-                <Stack width={"100%"} maxWidth={"1200px"} direction={"column"} mt={4}>
+            <Stack className="App" alignItems={"center"} padding={4} minWidth={"1300px"}>
+                <Stack width={"100%"} maxWidth={"1280px"} direction={"column"} gap={4}>
                     <Settings loadFiles={loadFiles} saveImages={saveImages}/>
                     <Stack direction="column" width={"100%"} spacing={2}>
                         {rows?.slice(1, -1).map((row, index) => (

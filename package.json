@@ -1,7 +1,9 @@
 {
-  "name": "quote-app",
+  "name": "quote-framer",
+  "author": "Will McDonald",
   "version": "0.1.0",
-  "start": "electron .",
+  "main": "./electron.js",
+  "homepage": "./",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -21,19 +23,27 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "concurrently": "^8.2.2",
+    "cross-env": "^7.0.3",
     "electron": "^27.0.1",
-    "electron-builder": "^24.6.4"
+    "electron-builder": "^24.6.4",
+    "electronmon": "^2.0.2",
+    "wait-on": "^7.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "electron-builder --mac",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
-    "electron-pack": "build -mwl"
+    "electron-pack": "build -mwl",
+    "electron:start": "concurrently -k \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electronmon .\"",
+    "electron:package:mac": "yarn build && electron-builder -m -c.extraMetadata.main=build/electron.js",
+    "electron:package:win": "yarn build && electron-builder -w -c.extraMetadata.main=build/electron.js",
+    "electron:package:linux": "yarn build && electron-builder -l -c.extraMetadata.main=build/electron.js"
   },
   "build": {
-    "appId": "com.example.quotes",
+    "appId": "com.gmail.willmcdonald.quote-framer",
     "directories": {
       "buildResources": "public"
     },
@@ -43,6 +53,15 @@
     ],
     "extraMetadata": {
       "main": "electron.js"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "deb"
     }
   },
   "eslintConfig": {
@@ -53,11 +72,10 @@
   },
   "browserslist": {
     "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
+      "last 1 electron version"
     ],
     "development": [
+      "last 1 electron version",
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
