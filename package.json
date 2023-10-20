@@ -1,8 +1,9 @@
 {
   "name": "quote-framer",
   "author": "Will McDonald",
+  "description": "The butler did it.",
   "version": "0.1.0",
-  "main": "./electron.js",
+  "main": "./public/electron.js",
   "homepage": "./",
   "private": true,
   "dependencies": {
@@ -32,7 +33,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "electron-builder --mac",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "ELECTRON_START_URL=http://localhost:3000 electron .",
@@ -44,6 +45,7 @@
   },
   "build": {
     "appId": "com.gmail.willmcdonald.quote-framer",
+    "productName": "Quote Framer",
     "directories": {
       "buildResources": "public"
     },
@@ -51,8 +53,9 @@
       "build/**/*",
       "node_modules/**/*"
     ],
+    "extends": null,
     "extraMetadata": {
-      "main": "electron.js"
+      "main": "build/electron.js"
     },
     "mac": {
       "target": "dmg"
