@@ -5,8 +5,9 @@ import QuoteCard from "./components/QuoteCard";
 import {Stack} from "@mui/material";
 import Settings from "./components/Settings";
 import FontProvider from "./FontProvider";
-import {toJpeg} from "html-to-image";
-import download from "downloadjs";
+import {toBlob} from "html-to-image";
+import JSZip from "jszip";
+import { saveAs } from 'file-saver';
 
 
 function App(callback, deps) {
@@ -24,18 +25,38 @@ function App(callback, deps) {
         }
     }, []);
 
-    const saveImage = useCallback((index) => {
-        toJpeg(document.getElementById(`quote-card-${index}`), { quality: 0.95, cacheBust: true, backgroundColor: "black" })
-            .then(function (dataUrl) {
-                download(dataUrl, `quote-${index}.jpg`);
-            });
-    }, [])
 
-    const saveImages = useCallback(() => {
-        if (rows.length > 0) {
-            saveImage(0);
-        }
-    }, [saveImage, rows.length]);
+    const saveImages = useCallback(async () => {
+        const totalDigits = rows.length.toString().length;
+        const zip = new JSZip();
+
+        let imagePromises = [];
+        rows?.forEach((row, index) => {
+            if (index > 0) {
+                const paddedIndex = index.toString().padStart(totalDigits, '0');
+
+                const promise = toBlob(document.getElementById(`quote-card-${index}`), {
+                    quality: 0.95,
+                    cacheBust: true,
+                    backgroundColor: "black"
+                }).then(blob => {
+                    zip.file(`quote-${paddedIndex}.png`, blob);
+                })
+                .catch(error => {
+                    console.error(`Failed to capture image for element ${index}:`, error);
+                });
+                imagePromises.push(promise);
+            }
+        });
+
+        await Promise.all(imagePromises);
+
+        zip.generateAsync({ type: 'blob' })
+            .then(blob => {
+                saveAs(blob, 'quotes.zip');
+            });
+
+    }, [rows]);
 
     return (
         <FontProvider>

@@ -1,4 +1,4 @@
-import {createContext, useCallback, useContext, useState} from "react";
+import {createContext, useContext, useState} from "react";
 
 const defaultFontFamilies = ['Arial', 'Courier New', 'Georgia', 'Times New Roman', 'Verdana'];
 const defaultFontWeights = ["100", "200", "300", "400", "500", "600", "700", "800", "900"];
@@ -8,19 +8,19 @@ const FontContext = createContext(() => {});
 export const useFont = () => useContext(FontContext);
 
 export default function FontProvider({ children }) {
-    const [fontFamilies, setFontFamilies] = useState(defaultFontFamilies);
+    const [fontFamilies, ] = useState(defaultFontFamilies);
     const [quoteFont, setQuoteFont] = useState({fontFamily: fontFamilies[0], fontWeight: "600", fontSize: "52px"});
     const [attributionFont, setAttributionFont] = useState({fontFamily: fontFamilies[0], fontWeight: "400", fontSize: "24px"});
 
-    const handleFontFile = useCallback((file) => {
-        if (file) {
-            const fontFace = new FontFace('CustomFont', URL.createObjectURL(file));
-            fontFace.load().then((loadedFontFace) => {
-                document.fonts.add(loadedFontFace);
-                setFontFamilies(['CustomFont']);
-            });
-        }
-    }, []);
+    // const handleFontFile = useCallback((file) => {
+    //     if (file) {
+    //         const fontFace = new FontFace('CustomFont', URL.createObjectURL(file));
+    //         fontFace.load().then((loadedFontFace) => {
+    //             document.fonts.add(loadedFontFace);
+    //             setFontFamilies(['CustomFont']);
+    //         });
+    //     }
+    // }, []);
 
     const settings = {
         defaultFontFamilies,
